@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🎙️ MeetMind — AI Meeting Assistant
 
 > **100% local · zero cloud · full privacy**
@@ -143,3 +144,7 @@ This project demonstrates:
 ## License
 
 MIT — free to use, modify, and distribute.
+=======
+# Hackathon2026
+MeetMind-AI meeting assistant
+>>>>>>> 4641afe701f9a50f7b59f75aab466f868336c4ca
