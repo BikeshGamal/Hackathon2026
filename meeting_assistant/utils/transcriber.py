@@ -68,14 +68,14 @@ def transcribe_audio(
 
     result = model.transcribe(
         audio_path,
-        fp16=device == "cuda",          # fp16 only on GPU
+        fp16=device == "cuda",
         verbose=False,
-        condition_on_previous_text=False,  # faster
-        temperature=0,                     # greedy = fastest
+        condition_on_previous_text=False,
+        temperature=0,
         language=language,
         task=task,
-        beam_size=1,                       # no beam search = much faster
-        best_of=1,                         # no sampling = faster
+        beam_size=1,
+        best_of=1,
         compression_ratio_threshold=2.4,
         no_speech_threshold=0.6,
     )

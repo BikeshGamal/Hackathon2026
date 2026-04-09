@@ -5,6 +5,7 @@ import time
 from pathlib import Path
 from utils.transcriber import transcribe_audio
 from utils.summarizer import generate_meeting_notes
+from utils.audio_recorder import record_audio_component
 from utils.exporter import export_to_markdown, export_to_txt
 import datetime
 
@@ -272,8 +273,6 @@ if "word_count" not in st.session_state:
     st.session_state.word_count = 0
 if "meeting_time" not in st.session_state:
     st.session_state.meeting_time = ""
-if "detected_language" not in st.session_state:
-    st.session_state.detected_language = ""
 
 # ─── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
@@ -289,69 +288,15 @@ with st.sidebar:
     whisper_model = st.selectbox(
         "Whisper model",
         ["tiny", "base", "small", "medium", "large"],
-        index=0,
-        help="tiny = fastest (recommended). base = balanced. small/medium = better accuracy for non-English."
+        index=1,
+        help="Larger = more accurate but slower. 'base' is good for most meetings."
     )
-
-    SPEED_LABELS = {
-        "tiny":   ("⚡⚡⚡ Fastest", "#7dd3c0"),
-        "base":   ("⚡⚡  Balanced", "#a0c8a0"),
-        "small":  ("⚡    Slower",  "#c8c080"),
-        "medium": ("🐢   Slow",     "#c89060"),
-        "large":  ("🐢🐢 Slowest", "#c86060"),
-    }
-    spd_text, spd_color = SPEED_LABELS.get(whisper_model, ("", "#888"))
-    st.markdown(f'''
-    <div style="font-size:0.75rem; color:{spd_color}; margin-top:-0.5rem; margin-bottom:0.5rem;">
-        {spd_text}
-    </div>''', unsafe_allow_html=True)
 
     ollama_model = st.selectbox(
         "Ollama model",
         ["llama3", "llama3.1", "mistral", "gemma2", "phi3"],
         index=0,
         help="Must be pulled via: ollama pull <model>"
-    )
-
-    st.markdown('<hr style="border-color:#1e2028; margin:1.5rem 0;">', unsafe_allow_html=True)
-    st.markdown('<div class="section-label">Language</div>', unsafe_allow_html=True)
-
-    LANGUAGES = {
-        "Auto-detect": None,
-        "English": "en",
-        "Nepali (नेपाली)": "ne",
-        "Hindi (हिन्दी)": "hi",
-        "Chinese (中文)": "zh",
-        "Spanish (Español)": "es",
-        "French (Français)": "fr",
-        "Arabic (العربية)": "ar",
-        "Portuguese (Português)": "pt",
-        "Russian (Русский)": "ru",
-        "German (Deutsch)": "de",
-        "Japanese (日本語)": "ja",
-        "Korean (한국어)": "ko",
-        "Italian (Italiano)": "it",
-        "Turkish (Türkçe)": "tr",
-        "Bengali (বাংলা)": "bn",
-        "Urdu (اردو)": "ur",
-        "Vietnamese (Tiếng Việt)": "vi",
-        "Thai (ภาษาไทย)": "th",
-        "Indonesian": "id",
-        "Malay": "ms",
-    }
-
-    selected_lang_label = st.selectbox(
-        "Meeting language",
-        list(LANGUAGES.keys()),
-        index=0,
-        help="Select the language spoken in the meeting. Auto-detect works well for most languages."
-    )
-    selected_language = LANGUAGES[selected_lang_label]
-
-    translate_to_english = st.toggle(
-        "Translate to English",
-        value=False,
-        help="Transcribe in original language AND translate output to English. Useful for non-English meetings."
     )
 
     st.markdown('<hr style="border-color:#1e2028; margin:1.5rem 0;">', unsafe_allow_html=True)
@@ -395,46 +340,72 @@ left_col, right_col = st.columns([1, 1.3], gap="large")
 # LEFT COLUMN — Input
 # ══════════════════════════════════════════════════════════════════════════════
 with left_col:
-    st.markdown('<div class="section-label">Upload Meeting File</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-label">Input</div>', unsafe_allow_html=True)
+
+    tab1, tab2 = st.tabs(["Upload File", "Record Audio"])
 
     audio_path = None
 
-    st.markdown('<div style="height:0.5rem"></div>', unsafe_allow_html=True)
-    uploaded = st.file_uploader(
-        "Drop your meeting file here",
-        type=["mp3", "mp4", "wav", "m4a", "ogg", "webm", "mkv", "avi", "mov"],
-        label_visibility="collapsed"
-    )
-    st.markdown("""
-    <div style='font-size:0.75rem; color:#3d4455; margin-top:0.5rem; text-align:center;'>
-        Supports MP3, MP4, WAV, M4A, OGG, WEBM, MKV, AVI, MOV
-    </div>
-    """, unsafe_allow_html=True)
-
-    if uploaded:
-        suffix = Path(uploaded.name).suffix
-        tmp = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
-        tmp.write(uploaded.read())
-        tmp.flush()
-        audio_path = tmp.name
-
+    # ── Tab 1: Upload ──────────────────────────────────────────────────────────
+    with tab1:
+        st.markdown('<div style="height:0.75rem"></div>', unsafe_allow_html=True)
+        uploaded = st.file_uploader(
+            "Drop your meeting file here",
+            type=["mp3", "mp4", "wav", "m4a", "ogg", "webm", "mkv", "avi", "mov"],
+            label_visibility="collapsed"
+        )
         st.markdown("""
-        <div class='glass-card' style='margin-top:1rem; padding:1rem;'>
-            <div style='display:flex; align-items:center; gap:10px;'>
-                <div style='font-size:1.5rem;'>🎵</div>
-                <div>
-                    <div style='font-size:0.85rem; color:#c0c8d8; font-weight:500;'>{name}</div>
-                    <div style='font-size:0.72rem; color:#3d4455;'>{size} KB · Ready to process</div>
+        <div style='font-size:0.75rem; color:#3d4455; margin-top:0.5rem; text-align:center;'>
+            Supports MP3, MP4, WAV, M4A, OGG, WEBM, MKV, AVI, MOV
+        </div>
+        """, unsafe_allow_html=True)
+
+        if uploaded:
+            suffix = Path(uploaded.name).suffix
+            tmp = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
+            tmp.write(uploaded.read())
+            tmp.flush()
+            audio_path = tmp.name
+
+            st.markdown("""
+            <div class='glass-card' style='margin-top:1rem; padding:1rem;'>
+                <div style='display:flex; align-items:center; gap:10px;'>
+                    <div style='font-size:1.5rem;'>🎵</div>
+                    <div>
+                        <div style='font-size:0.85rem; color:#c0c8d8; font-weight:500;'>{name}</div>
+                        <div style='font-size:0.72rem; color:#3d4455;'>{size} KB · Ready to process</div>
+                    </div>
                 </div>
             </div>
-        </div>
-        """.format(
-            name=uploaded.name,
-            size=round(uploaded.size / 1024)
-        ), unsafe_allow_html=True)
+            """.format(
+                name=uploaded.name,
+                size=round(uploaded.size / 1024)
+            ), unsafe_allow_html=True)
 
-        with open(audio_path, "rb") as f:
-            st.audio(f.read(), format=f"audio/{suffix.strip('.')}")
+            # Show audio player
+            with open(audio_path, "rb") as f:
+                st.audio(f.read(), format=f"audio/{suffix.strip('.')}")
+
+    # ── Tab 2: Record ─────────────────────────────────────────────────────────
+    with tab2:
+        st.markdown('<div style="height:0.75rem"></div>', unsafe_allow_html=True)
+        st.markdown("""
+        <div class='glass-card' style='text-align:center; padding:2rem;'>
+            <div style='font-size:2.5rem; margin-bottom:1rem;'>🎙️</div>
+            <div style='font-size:0.85rem; color:#8090a8; margin-bottom:1rem; line-height:1.6;'>
+                Use the recorder below to capture your meeting directly in the browser.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        recorded = record_audio_component()
+        if recorded:
+            tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+            tmp.write(recorded)
+            tmp.flush()
+            audio_path = tmp.name
+            st.audio(recorded, format="audio/wav")
+            st.success("Recording saved! Click 'Process Meeting' below.")
 
     # ── Process Button ─────────────────────────────────────────────────────────
     st.markdown('<div style="height:1rem"></div>', unsafe_allow_html=True)
@@ -447,19 +418,12 @@ with left_col:
             st.session_state.meeting_time = datetime.datetime.now().strftime("%B %d, %Y · %H:%M")
 
             # Step 1: Transcribe
-            lang_label = selected_lang_label if selected_lang_label != "Auto-detect" else "auto-detecting language"
-            with st.spinner(f"Transcribing audio with Whisper ({lang_label})…"):
+            with st.spinner("Transcribing audio with Whisper…"):
                 try:
-                    transcript, duration, detected_lang = transcribe_audio(
-                        audio_path,
-                        model_name=whisper_model,
-                        language=selected_language,
-                        translate_to_english=translate_to_english,
-                    )
+                    transcript, duration = transcribe_audio(audio_path, model_name=whisper_model)
                     st.session_state.transcript = transcript
                     st.session_state.audio_duration = duration
                     st.session_state.word_count = len(transcript.split())
-                    st.session_state.detected_language = detected_lang
                 except Exception as e:
                     st.error(f"Transcription failed: {e}")
                     st.stop()
@@ -530,11 +494,9 @@ with right_col:
         </div>
         """, unsafe_allow_html=True)
 
-        lang_display = st.session_state.detected_language.upper() if st.session_state.detected_language else "—"
         st.markdown(f"""
-        <div style='font-size:0.72rem; color:#2a3040; margin-bottom:1rem; letter-spacing:0.05em; display:flex; gap:1rem;'>
-            <span>Processed {st.session_state.meeting_time}</span>
-            <span style='color:#3d5050;'>Language detected: <span style='color:#7dd3c0;'>{lang_display}</span></span>
+        <div style='font-size:0.72rem; color:#2a3040; margin-bottom:1rem; letter-spacing:0.05em;'>
+            Processed {st.session_state.meeting_time}
         </div>
         """, unsafe_allow_html=True)
 
