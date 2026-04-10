@@ -1,15 +1,14 @@
 {
-  "sender_email": "bkssstechno@gmail.com",
   "sender_name": "Bikesh Gamal",
-  "app_password": "iicr vnoh vjet cfvp",
+  "sender_email": "bkssstechno@gmail.com",
+  "smtp_password": "testpassword",
+  "smtp_provider": "Gmail",
   "smtp_host": "smtp.gmail.com",
   "smtp_port": 587,
   "team_members": [
     {
-      "name": "b",
+      "name": "Bikesh Gamal",
       "email": "bikeshgamal2000@gmail.com"
     }
-  ],
-  "smtp_password": "iicr vnoh vjet cfvp",
-  "smtp_provider": "Gmail"
+  ]
 }
