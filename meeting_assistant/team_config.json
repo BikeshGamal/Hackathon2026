@@ -1,14 +1,30 @@
 {
-  "sender_name": "Bikesh Gamal",
-  "sender_email": "bkssstechno@gmail.com",
-  "smtp_password": "testpassword",
+  "sender_name": "Tirtha Shrestha",
+  "sender_email": "tirthashrestha27@gmail.com",
+  "smtp_password": "qfvv nrli anbo yadb",
   "smtp_provider": "Gmail",
   "smtp_host": "smtp.gmail.com",
   "smtp_port": 587,
   "team_members": [
     {
-      "name": "Bikesh Gamal",
-      "email": "bikeshgamal2000@gmail.com"
+      "name": "Tirtha Shrestha",
+      "email": "tirthashrestha2277@gmail.com"
+    },
+    {
+      "name": "Keshab Maharjan",
+      "email": "keshab.maharjan@infinite.com"
+    },
+    {
+      "name": "tirtha shrestha",
+      "email": "tirtha.shrestha@infinite.com"
+    },
+    {
+      "name": "bikesh gamal",
+      "email": "bikesh.gamal@infinite.com"
+    },
+    {
+      "name": "rashala karmacharya",
+      "email": "rashala.karmacharya@infinite.com"
     }
   ]
 }

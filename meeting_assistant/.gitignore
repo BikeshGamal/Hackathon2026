@@ -1,0 +1,14 @@
+# Ignore local config with private email credentials
+team_config.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+
+# Editor settings
+.vscode/

@@ -1,0 +1,18 @@
+{
+  "sender_name": "Your Name",
+  "sender_email": "your.email@example.com",
+  "smtp_password": "your_smtp_password",
+  "smtp_provider": "Gmail",
+  "smtp_host": "smtp.gmail.com",
+  "smtp_port": 587,
+  "team_members": [
+    {
+      "name": "Alice Example",
+      "email": "alice@example.com"
+    },
+    {
+      "name": "Bob Example",
+      "email": "bob@example.com"
+    }
+  ]
+}

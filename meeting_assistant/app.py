@@ -55,7 +55,7 @@ section[data-testid="stSidebar"] * {
 }
 .hero-sub {
     font-size: 1rem;
-    color: #5a6070;
+    color: #c8d0dc;
     margin-top: 0.5rem;
     font-weight: 300;
     letter-spacing: 0.04em;
@@ -84,7 +84,7 @@ section[data-testid="stSidebar"] * {
     font-weight: 500;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #3d4455;
+    color: #c8d0dc;
     margin-bottom: 1rem;
 }
 
@@ -186,7 +186,7 @@ section[data-testid="stSidebar"] * {
 }
 .metric-label {
     font-size: 0.68rem;
-    color: #3d4455;
+    color: #c8d0dc;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     margin-top: 2px;
@@ -281,6 +281,8 @@ if "email_sent" not in st.session_state:
     st.session_state.email_sent = False
 if "email_message" not in st.session_state:
     st.session_state.email_message = ""
+if "manual_text" not in st.session_state:
+    st.session_state.manual_text = ""
 
 # ─── Load team config ──────────────────────────────────────────────────────────
 team_config = load_team_config()
@@ -403,7 +405,7 @@ left_col, right_col = st.columns([1, 1.3], gap="large")
 
 # ══════════════════════════════════════════════════════════════════════════════
 # LEFT COLUMN — Input
-# ══════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════
 with left_col:
     st.markdown('<div class="section-label">Upload Meeting File</div>', unsafe_allow_html=True)
 
@@ -416,7 +418,7 @@ with left_col:
         label_visibility="collapsed"
     )
     st.markdown("""
-    <div style='font-size:0.75rem; color:#3d4455; margin-top:0.5rem; text-align:center;'>
+    <div style='font-size:0.75rem; color:#c8d0dc; margin-top:0.5rem; text-align:center;'>
         Supports MP3, MP4, WAV, M4A, OGG, WEBM, MKV, AVI, MOV
     </div>
     """, unsafe_allow_html=True)
@@ -433,8 +435,8 @@ with left_col:
             <div style='display:flex; align-items:center; gap:10px;'>
                 <div style='font-size:1.5rem;'>🎵</div>
                 <div>
-                    <div style='font-size:0.85rem; color:#c0c8d8; font-weight:500;'>{name}</div>
-                    <div style='font-size:0.72rem; color:#3d4455;'>{size} KB · Ready to process</div>
+                    <div style='font-size:0.85rem; color:#c8d0dc; font-weight:500;'>{name}</div>
+                    <div style='font-size:0.72rem; color:#c8d0dc;'>{size} KB · Ready to process</div>
                 </div>
             </div>
         </div>
@@ -446,10 +448,27 @@ with left_col:
         with open(audio_path, "rb") as f:
             st.audio(f.read(), format=f"audio/{suffix.strip('.')}")
 
+    st.markdown('<div style="height:1rem"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-label">Paste Meeting Text</div>', unsafe_allow_html=True)
+
+    text_area_key = "manual_text" if not uploaded else "manual_text_uploaded"
+    text_area_value = "" if uploaded else st.session_state.get("manual_text", "")
+
+    st.text_area(
+        "Your meeting transcript",
+        value=text_area_value,
+        height=180,
+        placeholder="Paste your meeting transcript or notes here to skip transcription...",
+        key=text_area_key
+    )
+
     # ── Process Button ─────────────────────────────────────────────────────────
     st.markdown('<div style="height:1rem"></div>', unsafe_allow_html=True)
 
-    if audio_path:
+    manual_text = "" if audio_path else st.session_state.get("manual_text", "").strip()
+    has_input = bool(audio_path or manual_text)
+
+    if has_input:
         if st.button("⚡ Process Meeting", use_container_width=True):
             st.session_state.processing_done = False
             st.session_state.transcript = ""
@@ -458,29 +477,38 @@ with left_col:
             st.session_state.email_message = ""
             st.session_state.meeting_time = datetime.datetime.now().strftime("%B %d, %Y · %H:%M")
 
-            # Step 1: Transcribe
-            lang_label = selected_lang_label if selected_lang_label != "Auto-detect" else "auto-detecting language"
-            with st.spinner(f"Transcribing audio with Whisper ({lang_label})…"):
-                try:
-                    transcript, duration, detected_lang = transcribe_audio(
-                        audio_path,
-                        model_name=whisper_model,
-                        language=selected_language,
-                        translate_to_english=translate_to_english,
-                    )
-                    st.session_state.transcript = transcript
-                    st.session_state.audio_duration = duration
-                    st.session_state.word_count = len(transcript.split())
-                    st.session_state.detected_language = detected_lang
-                except Exception as e:
-                    st.error(f"Transcription failed: {e}")
-                    st.stop()
+            if manual_text:
+                transcript = manual_text
+                duration = 0
+                detected_lang = selected_language or ""
+                st.session_state.transcript = transcript
+                st.session_state.audio_duration = duration
+                st.session_state.word_count = len(transcript.split())
+                st.session_state.detected_language = detected_lang
+            else:
+                # Step 1: Transcribe
+                lang_label = selected_lang_label if selected_lang_label != "Auto-detect" else "auto-detecting language"
+                with st.spinner(f"Transcribing audio with Whisper ({lang_label})…"):
+                    try:
+                        transcript, duration, detected_lang = transcribe_audio(
+                            audio_path,
+                            model_name=whisper_model,
+                            language=selected_language,
+                            translate_to_english=translate_to_english,
+                        )
+                        st.session_state.transcript = transcript
+                        st.session_state.audio_duration = duration
+                        st.session_state.word_count = len(transcript.split())
+                        st.session_state.detected_language = detected_lang
+                    except Exception as e:
+                        st.error(f"Transcription failed: {e}")
+                        st.stop()
 
             # Step 2: Summarize
             with st.spinner("Generating meeting notes with Llama 3…"):
                 try:
                     notes = generate_meeting_notes(
-                        transcript,
+                        st.session_state.transcript,
                         model=ollama_model,
                         include_sentiment=include_sentiment,
                         include_keywords=include_keywords,
@@ -539,7 +567,7 @@ with left_col:
             border-radius:16px;padding:1.25rem 1.5rem;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
                 <div style="font-size:0.6rem;font-weight:500;letter-spacing:0.15em;
-                    text-transform:uppercase;color:#3d4455;">Mail Service</div>
+                    text-transform:uppercase;color:#c8d0dc;">Mail Service</div>
                 <div style="display:flex;align-items:center;gap:5px;">
                     <div style="width:6px;height:6px;border-radius:50%;background:{dot_color};"></div>
                     <span style="font-size:0.65rem;color:{dot_color};">{dot_status}</span>
@@ -551,22 +579,22 @@ with left_col:
                     display:flex;align-items:center;justify-content:center;
                     font-size:1.1rem;flex-shrink:0;">✉</div>
                 <div style="min-width:0;">
-                    <div style="font-size:0.84rem;color:#c0c8d8;font-weight:500;
+                    <div style="font-size:0.84rem;color:#c8d0dc;font-weight:500;
                         white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
                         {s_name if s_name else "Not configured"}</div>
-                    <div style="font-size:0.68rem;color:#5a6070;white-space:nowrap;
+                    <div style="font-size:0.68rem;color:#c8d0dc;white-space:nowrap;
                         overflow:hidden;text-overflow:ellipsis;">
                         {s_email if s_email else "Set up email to send notes"}</div>
                 </div>
             </div>
             <div style="font-size:0.6rem;font-weight:500;letter-spacing:0.1em;
-                text-transform:uppercase;color:#3d4455;margin-bottom:0.5rem;">
+                text-transform:uppercase;color:#c8d0dc;margin-bottom:0.5rem;">
                 Recipients · {len(members_left)}</div>
             {rows_html}{extra}{no_members}
             <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid #1a1e28;
                 display:flex;justify-content:space-between;align-items:center;">
-                <div style="font-size:0.65rem;color:#3d4455;">Provider</div>
-                <div style="font-size:0.7rem;color:#7dd3c0;font-weight:500;">{s_provider}</div>
+                <div style="font-size:0.65rem;color:#c8d0dc;">Provider</div>
+                <div style="font-size:0.7rem;color:#c8d0dc;font-weight:500;">{s_provider}</div>
             </div>
         </div>""", unsafe_allow_html=True)
 
@@ -612,9 +640,9 @@ with right_col:
 
         lang_display = st.session_state.detected_language.upper() if st.session_state.detected_language else "—"
         st.markdown(f"""
-        <div style='font-size:0.72rem; color:#2a3040; margin-bottom:1rem; letter-spacing:0.05em; display:flex; gap:1rem;'>
+        <div style='font-size:0.72rem; color:#c8d0dc; margin-bottom:1rem; letter-spacing:0.05em; display:flex; gap:1rem;'>
             <span>Processed {st.session_state.meeting_time}</span>
-            <span style='color:#3d5050;'>Language detected: <span style='color:#7dd3c0;'>{lang_display}</span></span>
+            <span style='color:#c8d0dc;'>Language detected: <span style='color:#7dd3c0;'>{lang_display}</span></span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -851,13 +879,13 @@ with right_col:
         members = team_config.get("team_members", [])
 
         if not team_config.get("sender_email"):
-            st.markdown("<div style='font-size:0.82rem;color:#5a6070;padding:0.25rem 0;'>Click ⚙ Edit Setup to configure your email and team members.</div>", unsafe_allow_html=True)
+            st.markdown("<div style='font-size:0.82rem;color:#c8d0dc;padding:0.25rem 0;'>Click ⚙ Edit Setup to configure your email and team members.</div>", unsafe_allow_html=True)
 
         elif not members:
-            st.markdown("<div style='font-size:0.82rem;color:#5a6070;padding:0.25rem 0;'>No team members yet. Click ⚙ Edit Setup to add recipients.</div>", unsafe_allow_html=True)
+            st.markdown("<div style='font-size:0.82rem;color:#c8d0dc;padding:0.25rem 0;'>No team members yet. Click ⚙ Edit Setup to add recipients.</div>", unsafe_allow_html=True)
 
         else:
-            st.markdown("<div style='font-size:0.75rem;color:#5a6070;margin-bottom:0.4rem;'>Select recipients:</div>", unsafe_allow_html=True)
+            st.markdown("<div style='font-size:0.75rem;color:#c8d0dc;margin-bottom:0.4rem;'>Select recipients:</div>", unsafe_allow_html=True)
             selected_recipients = []
             for m in members:
                 if st.checkbox(f"{m['name']}   ·   {m['email']}", value=True, key=f"chk_{m['email']}"):
