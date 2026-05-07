@@ -517,6 +517,7 @@ with left_col:
                     st.session_state.meeting_notes = notes
                     st.session_state.processing_done = True
                 except Exception as e:
+                    print(f"Summarization failed: {e}")
                     st.error(f"Summarization failed: {e}")
                     st.stop()
 

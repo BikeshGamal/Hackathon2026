@@ -1,7 +1,7 @@
 {
   "sender_name": "Tirtha Shrestha",
   "sender_email": "tirthashrestha27@gmail.com",
-  "smtp_password": "qfvv nrli anbo yadb",
+  "smtp_password": "abc",
   "smtp_provider": "Gmail",
   "smtp_host": "smtp.gmail.com",
   "smtp_port": 587,

@@ -1,0 +1,298 @@
+
+Seema Kulkarni
+0 minutes 8 seconds0:08
+Seema Kulkarni 0 minutes 8 seconds
+Hello everyone, good morning. Our team, I'm in the metro. Okay, so...
+Seema Kulkarni 0 minutes 14 seconds
+Hello.
+
+Srivishnuhari Sivaraman
+0 minutes 20 seconds0:20
+Srivishnuhari Sivaraman 0 minutes 20 seconds
+Yes, Seema. Good morning. Yeah, I do understand, Seema.
+
+Seema Kulkarni
+0 minutes 21 seconds0:21
+Seema Kulkarni 0 minutes 21 seconds
+Tirtha and Team Ma.
+Seema Kulkarni 0 minutes 24 seconds
+Thank you, thank you, Srivishnuhari. So, Tirtha and team, have you joined?
+
+Tirtha Shrestha
+0 minutes 28 seconds0:28
+Tirtha Shrestha 0 minutes 28 seconds
+Yes, we are doing.
+
+Seema Kulkarni
+0 minutes 28 seconds0:28
+Seema Kulkarni 0 minutes 28 seconds
+Let me.
+Seema Kulkarni 0 minutes 30 seconds
+OK, so you get 5 minutes for presentation, 10 minutes for demo, and Q&A.
+Seema Kulkarni 0 minutes 39 seconds
+Okay.
+
+Srivishnuhari Sivaraman
+0 minutes 40 seconds0:40
+Srivishnuhari Sivaraman 0 minutes 40 seconds
+So, Seema, I am seeing Surendra, Shubhendu, and Hariprasad out of office.
+
+Tirtha Shrestha
+0 minutes 40 seconds0:40
+Tirtha Shrestha 0 minutes 40 seconds
+Yeah, OK.
+
+Seema Kulkarni
+0 minutes 43 seconds0:43
+Seema Kulkarni 0 minutes 43 seconds
+Sah.
+Seema Kulkarni 0 minutes 44 seconds
+K.
+Seema Kulkarni 0 minutes 46 seconds
+Okay.
+
+Srivishnuhari Sivaraman
+0 minutes 47 seconds0:47
+Srivishnuhari Sivaraman 0 minutes 47 seconds
+Leave me be.
+Srivishnuhari Sivaraman 0 minutes 49 seconds
+Om.
+Srivishnuhari Sivaraman 0 minutes 50 seconds
+Tirtha, like anybody else from your team need to join?
+
+Tirtha Shrestha
+0 minutes 55 seconds0:55
+Tirtha Shrestha 0 minutes 55 seconds
+We are almost everyone here. One is on video. Beside that, me, Keshab and Rashala are here. So we are fine.
+
+Srivishnuhari Sivaraman
+1 minute 4 seconds1:04
+Srivishnuhari Sivaraman 1 minute 4 seconds
+OK, looks looks pretty much OK. Yeah, Seema, I believe we are OK to.
+
+Seema Kulkarni
+1 minute 5 seconds1:05
+Seema Kulkarni 1 minute 5 seconds
+OK. Next session, please. Sure. Thank you, Vishnu. Team, all the best. Please start with your presentation. Please emphasize more on the demo part, OK?
+
+Tirtha Shrestha
+1 minute 18 seconds1:18
+Tirtha Shrestha 1 minute 18 seconds
+Okay, so let me share my screen.
+
+Seema Kulkarni
+1 minute 19 seconds1:19
+Seema Kulkarni 1 minute 19 seconds
+Yeah.
+
+Tirtha Shrestha
+1 minute 23 seconds1:23
+Tirtha Shrestha 1 minute 23 seconds
+Yeah. So is my screen visible?
+RK
+Rashala Karmacharya
+1 minute 27 seconds1:27
+Rashala Karmacharya 1 minute 27 seconds
+Yes.
+
+Kannan Parthasarathy
+1 minute 29 seconds1:29
+Kannan Parthasarathy 1 minute 29 seconds
+Yeah, yeah.
+RK
+Rashala Karmacharya
+1 minute 30 seconds1:30
+Rashala Karmacharya 1 minute 30 seconds
+Okay.
+Rashala Karmacharya 1 minute 31 seconds
+So, hello everyone. This is Rashala Karmacharya with my team members. This is Tirtha Shrestha, Bikesh Gamal and Keshab Maharjan with our Hackathon Project, the AI Meeting Assistant.
+Rashala Karmacharya 1 minute 45 seconds
+So we have developed an AI-powered meeting assistant that helps our SM  and POs to handle meetings more efficiently. It can transcribe meetings, generate clear bullet points, summaries, and share meeting minutes along with the action items with the team.
+Rashala Karmacharya 2 minutes 4 seconds
+So now that the challenge we are addressing is quite common. SM  and POs often support multiple teams at the same time, requiring them to keep track of key points across several numerous meetings, which may increase the risk of missing.
+Rashala Karmacharya 2 minutes 23 seconds
+critical information. This is where the solution adds value. The AI meeting assistant improves accuracy, ensures accountability, and brings more transparency by automatically capturing action items, standardizing the summaries, and keeping everyone aligned. From a technical perspective, the system uses Lama 3 LLM
+Rashala Karmacharya 2 minutes 46 seconds
+to generate summaries and extract action items from the transcript provided by the user as text or audio.
+Rashala Karmacharya 2 minutes 57 seconds
+Can you please change the slide? Thank you. Let me quickly cover the technical aspects. We are using Lama 3 model with a tech stack built on Python and Stream Lab. From a security perspective, since the model runs locally,
+Rashala Karmacharya 3 minutes 15 seconds
+All the data processing stays within a secure environment. In terms of cost, there are currently no subscription expenses, as the solution operates entirely on a local setup. The development effort.
+
+Rashala Karmacharya 3 minutes 34 seconds
+would be around two to three people over two to three months. However, running a local model does require a strong infrastructure, right? For A balanced setup, at least 32 GB of RAM is needed, which can deliver around 32 GB.
+Rashala Karmacharya 3 minutes 54 seconds
+60 tokens per second.
+Rashala Karmacharya 4 minutes
+So let's move on to workflow. Here we can see text or audio files are taken as input from the user. Whisper is used to transcribe the audio file into text. Then this transcript is fed into Olama.
+Rashala Karmacharya 4 minutes 20 seconds
+Which, which generates the summaries, key decision, action items, sentiments, and we also have feature of sending the mail.
+
+Tirtha Shrestha
+4 minutes 20 seconds4:20
+Tirtha Shrestha 4 minutes 20 seconds
+Okay.
+RK
+Rashala Karmacharya
+4 minutes 32 seconds4:32
+Rashala Karmacharya 4 minutes 32 seconds
+which can be used to send all these above-mentioned items via email.
+Rashala Karmacharya 4 minutes 40 seconds
+So I would like to hand over the session to the sister for the team. Thank you.
+
+Tirtha Shrestha
+4 minutes 48 seconds4:48
+Tirtha Shrestha 4 minutes 48 seconds
+Yeah, thank you, Rashala.
+Tirtha Shrestha 4 minutes 51 seconds
+So let me process with the demo part. So this is our homepage where we have two sections where we can either upload our audio file or we can paste the text part that like generated from meeting parts from Kim's itself. So let me go to.
+Tirtha Shrestha 5 minutes 10 seconds
+Audio.
+Tirtha Shrestha 5 minutes 12 seconds
+So we have generated a sample audio. Let me just select a sample audio. As you can see, we support multiple audio files. And this is the audio that I have just selected. And after selecting the audio, we can just simply click on process meeting. So what does happen?
+Tirtha Shrestha 5 minutes 33 seconds
+The audio file is transcripted; you are using Whisper. It takes it translates the audio into text, and its output is...
+Tirtha Shrestha 5 minutes 46 seconds
+feed into Lama. So let me, while this is in progress, so let me show you what it actually happens. So yeah, so this is the audio that I have given it as input. So the script, this text script or this raw script is generated from the same audio file using the whisper and
+Tirtha Shrestha 6 minutes 5 seconds
+This raw script is used as an input by our agent that is Lama 3, Lama. From this, it generates our request statement that are, as you can see, summary, action item, key topics and other items.
+Tirtha Shrestha 6 minutes 25 seconds
+Yeah, these are the somebody. External items.
+Tirtha Shrestha 6 minutes 30 seconds
+The topics.
+Tirtha Shrestha 6 minutes 32 seconds
+You and meeting sentiments, so through the.
+Tirtha Shrestha 6 minutes 37 seconds
+generation of this summaries, action items, and key topics from the audio itself. So we do have a feature.
+Tirtha Shrestha 6 minutes 45 seconds
+From there, we can set up the mail for the team members or PO SMs or whatever from the team. For that, we can just click on this same meeting notes to send these all action items summaries to all the team members. So after cleaning this same meeting notes.
+Tirtha Shrestha 7 minutes 6 seconds
+It will be showing here, sending to, like, I added just five recipients, so, so it has sent like sent to five recipients successfully. Let me show you the mail part as well. So, this is the mail that has been generated just now. So, this is type of the mail that we can generate.
+Tirtha Shrestha 7 minutes 23 seconds
+So, stating the summary, key discussions, action items, and key topics, since this was the...
+Tirtha Shrestha 7 minutes 31 seconds
+like demo audio we have used. So there was no key discussion. So let me provide, show you one of the another meeting that we have used as a live one. So this was the X raw transcript that we have used from our one meeting that was conducted a week ago by Ranjeesh.
+Tirtha Shrestha 7 minutes 51 seconds
+So, this was the raw transcript that we have fit in our application. So, after filling this raw transcript, we have generated the summaries. So, the summary says the meeting was about the like briefing new participants on guidelines, timelines, and overflow. The team discussed FAQs, participant eligibility, and a specific guidelines.
+Tirtha Shrestha 8 minutes 11 seconds
+So, the key discussion was on to use latest tenant for infinite environment and double check with internal offshore leaders before using the customer data.
+Tirtha Shrestha 8 minutes 21 seconds
+So, from the same transit, it has generated the action items, so it was to drop a mail to Hackathon and Seema on specific guidelines and also to check with leadership on AI related those and ons. So, also, it has generated the key topics, right? So, for the meeting sentiment, it was quite informative, so it had also given the meeting sentiments.
+Tirtha Shrestha 8 minutes 42 seconds
+And, for that also, we can we have a feature to send the mail to the participant. So, let me check whether our this was the recent one that I have shown as a demo, so I have paid the.
+Tirtha Shrestha 8 minutes 56 seconds
+Audio file, and it has given the raw transcript.
+Tirtha Shrestha 9 minutes
+And you can see the summary, action items, key points, and meetings sentiment has been generated.
+Tirtha Shrestha 9 minutes 8 seconds
+Uh, yeah, that is for demo, so we are now open for queries.
+Tirtha Shrestha 9 minutes 27 seconds
+Hello, am I audible?
+
+Tirtha Shrestha
+12 minutes 11 seconds12:11
+Tirtha Shrestha 12 minutes 11 seconds
+Yes.
+Tirtha Shrestha 12 minutes 14 seconds
+For now, yeah, Whisper do have a pizza to take the audio file as well, but audio file can be of larger file, right? So we can take the audio from that video file and we will give it as an input for this file, because audio file may be of larger size, it may occupy larger.
+Tirtha Shrestha 12 minutes 34 seconds
+space and more time. So we can extract the audio from the video itself and we will give it as input for our application.
+BS
+Bharat Songire
+12 minutes 46 seconds12:46
+Bharat Songire 12 minutes 46 seconds
+Okay.
+Bharat Songire 12 minutes 50 seconds
+So it has to be only the audio audio as a file has to be given or do have any other input also like.
+
+Tirtha Shrestha
+12 minutes 56 seconds12:56
+Tirtha Shrestha 12 minutes 56 seconds
+For now, yeah, we do have it like input as audio or at text. This one was in it from text only, not from audio, and this was generated from audio.
+BS
+Bharat Songire
+13 minutes 1 second13:01
+Bharat Songire 13 minutes 1 second
+Okay.
+Bharat Songire 13 minutes 4 seconds
+Mhm.
+Bharat Songire 13 minutes 11 seconds
+Okay.
+
+Keshab Maharjan
+13 minutes 11 seconds13:11
+Keshab Maharjan 13 minutes 11 seconds
+But the MP4 is also supported over here.
+
+Tirtha Shrestha
+13 minutes 15 seconds13:15
+Tirtha Shrestha 13 minutes 15 seconds
+Yes.
+BS
+Bharat Songire
+13 minutes 24 seconds13:24
+Bharat Songire 13 minutes 24 seconds
+Yeah, this is good. I requested this kind of tool. I think go two year, one year back to our CAICA team, but this is good guys. Specifically looking for the new joiners, right? Normally we share all our audios, our recordings for the training slides. So they want to see the summaries and everything, right?
+Bharat Songire 13 minutes 45 seconds
+So, that is a good one. I really appreciate this one.
+
+Tirtha Shrestha
+13 minutes 50 seconds13:50
+Tirtha Shrestha 13 minutes 50 seconds
+Yeah, thank you.
+Tirtha Shrestha 14 minutes 10 seconds
+To any other place?
+
+Seema Kulkarni
+14 minutes 12 seconds14:12
+Seema Kulkarni 14 minutes 12 seconds
+Next station.
+Seema Kulkarni 14 minutes 19 seconds
+Team, if we have no questions, a panel from the panel, we can sign off.
+
+Kannan Parthasarathy
+14 minutes 21 seconds14:21
+Kannan Parthasarathy 14 minutes 21 seconds
+Yeah, good. Yeah.
+
+Seema Kulkarni
+14 minutes 26 seconds14:26
+Seema Kulkarni 14 minutes 26 seconds
+Yeah, well done.
+
+Kannan Parthasarathy
+14 minutes 26 seconds14:26
+Kannan Parthasarathy 14 minutes 26 seconds
+Thank you.
+
+Srivishnuhari Sivaraman
+14 minutes 26 seconds14:26
+Srivishnuhari Sivaraman 14 minutes 26 seconds
+Yeah.
+Srivishnuhari Sivaraman 14 minutes 29 seconds
+Thanks to the team for bringing it up the opportunity with us. Thank you.
+
+Seema Kulkarni
+14 minutes 29 seconds14:29
+Seema Kulkarni 14 minutes 29 seconds
+Thank you.
+
+Tirtha Shrestha
+14 minutes 33 seconds14:33
+Tirtha Shrestha 14 minutes 33 seconds
+Yeah, thank you everyone.
+
+Keshab Maharjan
+14 minutes 35 seconds14:35
+Keshab Maharjan 14 minutes 35 seconds
+Good luck.
+
+Nagarajan Ramasamy
+14 minutes 37 seconds14:37
+Nagarajan Ramasamy 14 minutes 37 seconds
+Thank you, Tirtha.
+
+Tirtha Shrestha
+14 minutes 38 seconds14:38
+Tirtha Shrestha 14 minutes 38 seconds
+Thank you, everyone.
